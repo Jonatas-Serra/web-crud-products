@@ -24,6 +24,7 @@
       "singleQuote": true,
       "trailingComma": "all",
       "arrowParens": "always",
+      "endOfLine": "auto",
       "semi": false
       }],
       "react-hooks/rules-of-hooks": "error",

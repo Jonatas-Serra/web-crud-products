@@ -1,7 +1,13 @@
+import { Content } from './components/Content'
+import { Footer } from './components/Footer'
+import { Header } from './components/Header'
+
 function App() {
   return (
-    <div className="w-full">
-      <h1 className="text-4xl text-center">Hello World!</h1>
+    <div className="min-h-screen w-full flex flex-col items-center">
+      <Header />
+      <Content />
+      <Footer />
     </div>
   )
 }
