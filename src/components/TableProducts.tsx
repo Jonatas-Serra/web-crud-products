@@ -15,6 +15,7 @@ interface Products {
 const TableProducts: React.FC = () => {
   const [products, setProducts] = React.useState<Products[]>([])
   const [productId, setProductId] = React.useState('')
+  const [name, setName] = React.useState('')
   const [loading, setLoading] = React.useState(true)
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   // const [modalIsOpenEdit, setModalIsOpenEdit] = React.useState(false)
@@ -42,6 +43,8 @@ const TableProducts: React.FC = () => {
     await api.post('/products', data)
     setLoading(true)
     getProducts()
+    setName('')
+    setProductId('')
     setModalIsOpen(false)
   }
 
@@ -136,7 +139,7 @@ const TableProducts: React.FC = () => {
                 {products.map((product) => (
                   <tr
                     key={product._id}
-                    className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
+                    className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600 focus:bg-gray-600"
                   >
                     <th
                       scope="row"
@@ -161,6 +164,7 @@ const TableProducts: React.FC = () => {
                         onClick={() => {
                           setModalIsOpenDelete(true)
                           setProductId(product._id)
+                          setName(product.name)
                         }}
                         className="font-medium text-red-500 "
                       >
@@ -175,7 +179,7 @@ const TableProducts: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => setModalIsOpenDelete(false)}
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent  rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -209,7 +213,11 @@ const TableProducts: React.FC = () => {
                                   ></path>
                                 </svg>
                                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                  Você tem certeza que deseja deletar o produto?
+                                  Você tem certeza que deseja deletar o produto{' '}
+                                  <strong className="font-bold text-lg text-red-600">
+                                    {name}
+                                  </strong>
+                                  ?
                                 </h3>
                                 <button
                                   onClick={() => handleDeleteProduct(productId)}
@@ -247,7 +255,7 @@ const TableProducts: React.FC = () => {
                         <button
                           onClick={() => setModalIsOpen(false)}
                           type="button"
-                          className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                          className="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
                         >
                           <svg
                             aria-hidden="true"
