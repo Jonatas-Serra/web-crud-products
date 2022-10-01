@@ -1,5 +1,5 @@
-import React from 'react'
-import { FaTrashAlt, FaRegEdit, FaFile } from 'react-icons/fa'
+import React, { useState } from 'react'
+import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 import api from '../services/api'
 import CurrencyInput from 'react-currency-masked-input'
 
@@ -14,6 +14,7 @@ interface Products {
 
 const TableProducts: React.FC = () => {
   const [products, setProducts] = React.useState<Products[]>([])
+  const [search, setSearch] = useState('')
   const [productId, setProductId] = React.useState('')
   const [productName, setProductName] = React.useState('')
   const [productquantity, setProductquantity] = React.useState(0)
@@ -124,9 +125,10 @@ const TableProducts: React.FC = () => {
                   </div>
                   <input
                     type="search"
-                    id="default-search"
-                    className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Pesquisar por produtos"
+                    value={search}
+                    onChange={(text) => setSearch(text.target.value)}
+                    className="block p-4 pl-10 w-full text-base text-zinc-50 font-bold rounded-lg border  bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+                    placeholder="Pesquise pelo nome do produto"
                   />
                 </div>
               </form>
@@ -156,116 +158,121 @@ const TableProducts: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
-                  <tr
-                    key={product._id}
-                    className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600 focus:bg-gray-600"
-                  >
-                    <th
-                      scope="row"
-                      className="py-4 px-6 font-medium text-zinc-50 whitespace-nowrap dark:text-white"
+                {products
+                  .filter((product: Products) => product.name.includes(search))
+                  .map((product) => (
+                    <tr
+                      key={product._id}
+                      className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600 focus:bg-gray-600"
                     >
-                      {product.name}
-                    </th>
-                    <td className="py-4 px-6 text-zinc-50">
-                      {product.quantity}
-                    </td>
-                    <td className="py-4 px-6 text-zinc-50">
-                      R${product.price}
-                    </td>
-                    <td className="py-4 px-6 flex justify-around">
-                      <button
-                        onClick={() => {
-                          setProductId(product._id)
-                          setProductName(product.name)
-                          setProductdescription(product.description)
-                          setProductquantity(product.quantity)
-                          setProductprice(product.price)
-                          setModalIsOpenEdit(true)
-                        }}
-                        className="font-medium text-blue-400"
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-zinc-50 whitespace-nowrap dark:text-white"
                       >
-                        <FaRegEdit size={18} />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setModalIsOpenDelete(true)
-                          setProductId(product._id)
-                          setProductName(product.name)
-                        }}
-                        className="font-medium text-red-500 "
-                      >
-                        <FaTrashAlt size={18} />
-                      </button>
-                    </td>
-                    {modalIsOpenDelete && (
-                      <div className="relative h-full w-full">
-                        <div className="overflow-y-auto overflow-x-hidden fixed top-[20%] left-[30%] z-50  w-full md:h-full">
-                          <div className="relative p-4 w-full max-w-md h-full md:h-auto">
-                            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                              <button
-                                type="button"
-                                onClick={() => setModalIsOpenDelete(false)}
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent  rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  className="w-5 h-5 "
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                    clipRule="evenodd"
-                                  ></path>
-                                </svg>
-                                <span className="sr-only">Close modal</span>
-                              </button>
-                              <div className="p-6 text-center">
-                                <svg
-                                  aria-hidden="true"
-                                  className="mx-auto mb-4 w-14 h-14 text-red-600 "
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  ></path>
-                                </svg>
-                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                  Você tem certeza que deseja deletar o produto{' '}
-                                  <strong className="font-bold text-lg text-red-600">
-                                    {productName}
-                                  </strong>
-                                  ?
-                                </h3>
+                        {product.name}
+                      </th>
+                      <td className="py-4 px-6 text-zinc-50">
+                        {product.quantity}
+                      </td>
+                      <td className="py-4 px-6 text-zinc-50">
+                        R${product.price}
+                      </td>
+                      <td className="py-4 px-6 flex justify-around">
+                        <button
+                          onClick={() => {
+                            setProductId(product._id)
+                            setProductName(product.name)
+                            setProductdescription(product.description)
+                            setProductquantity(product.quantity)
+                            setProductprice(product.price)
+                            setModalIsOpenEdit(true)
+                          }}
+                          className="font-medium text-blue-400"
+                        >
+                          <FaRegEdit size={18} />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setModalIsOpenDelete(true)
+                            setProductId(product._id)
+                            setProductName(product.name)
+                          }}
+                          className="font-medium text-red-500 "
+                        >
+                          <FaTrashAlt size={18} />
+                        </button>
+                      </td>
+                      {modalIsOpenDelete && (
+                        <div className="relative h-full w-full">
+                          <div className="overflow-y-auto overflow-x-hidden fixed top-[20%] left-[30%] z-50  w-full md:h-full">
+                            <div className="relative p-4 w-full max-w-md h-full md:h-auto">
+                              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                 <button
-                                  onClick={() => handleDeleteProduct(productId)}
-                                  className="text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-                                >
-                                  Sim, Deletar
-                                </button>
-                                <button
+                                  type="button"
                                   onClick={() => setModalIsOpenDelete(false)}
-                                  className="rounded-lg border text-sm font-medium px-5 py-2.5 hover:text-zinc-50 focus:z-10 bg-gray-700 text-zinc-50 border-gray-500 hover:bg-gray-600"
+                                  className="absolute top-3 right-2.5 text-gray-400 bg-transparent  rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
                                 >
-                                  Não, cancelar
+                                  <svg
+                                    aria-hidden="true"
+                                    className="w-5 h-5 "
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                      clipRule="evenodd"
+                                    ></path>
+                                  </svg>
+                                  <span className="sr-only">Close modal</span>
                                 </button>
+                                <div className="p-6 text-center">
+                                  <svg
+                                    aria-hidden="true"
+                                    className="mx-auto mb-4 w-14 h-14 text-red-600 "
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    ></path>
+                                  </svg>
+                                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                    Você tem certeza que deseja deletar o
+                                    produto{' '}
+                                    <strong className="font-bold text-lg text-red-600">
+                                      {productName}
+                                    </strong>
+                                    ?
+                                  </h3>
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteProduct(productId)
+                                    }
+                                    className="text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                                  >
+                                    Sim, Deletar
+                                  </button>
+                                  <button
+                                    onClick={() => setModalIsOpenDelete(false)}
+                                    className="rounded-lg border text-sm font-medium px-5 py-2.5 hover:text-zinc-50 focus:z-10 bg-gray-700 text-zinc-50 border-gray-500 hover:bg-gray-600"
+                                  >
+                                    Não, cancelar
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </tr>
-                ))}
+                      )}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
