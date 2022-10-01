@@ -14,6 +14,7 @@ interface Products {
 
 const TableProducts: React.FC = () => {
   const [products, setProducts] = React.useState<Products[]>([])
+  const [productId, setProductId] = React.useState('')
   const [loading, setLoading] = React.useState(true)
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   // const [modalIsOpenEdit, setModalIsOpenEdit] = React.useState(false)
@@ -157,7 +158,10 @@ const TableProducts: React.FC = () => {
                         <FaRegEdit size={18} />
                       </a>
                       <button
-                        onClick={() => setModalIsOpenDelete(true)}
+                        onClick={() => {
+                          setModalIsOpenDelete(true)
+                          setProductId(product._id)
+                        }}
                         className="font-medium text-red-500 "
                       >
                         <FaTrashAlt size={18} />
@@ -208,9 +212,7 @@ const TableProducts: React.FC = () => {
                                   Você tem certeza que deseja deletar o produto?
                                 </h3>
                                 <button
-                                  onClick={() =>
-                                    handleDeleteProduct(product._id)
-                                  }
+                                  onClick={() => handleDeleteProduct(productId)}
                                   className="text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                                 >
                                   Sim, Deletar
