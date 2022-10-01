@@ -174,9 +174,6 @@ const TableProducts: React.FC = () => {
                       R${product.price}
                     </td>
                     <td className="py-4 px-6 flex justify-around">
-                      <button className="font-medium text-green-600 ">
-                        <FaFile size={18} />
-                      </button>
                       <button
                         onClick={() => {
                           setProductId(product._id)
