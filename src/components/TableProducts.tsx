@@ -245,12 +245,12 @@ const TableProducts: React.FC = () => {
                           </strong>
                           ?
                         </h3>
-                        <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col sm:flex-row justify-center sm:justify-evenly items-center">
                           <button
                             onClick={() =>
                               handleDeleteProduct(selectedProduct._id)
                             }
-                            className="mb-4 sm:mb-0 mx-auto text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center sm:mr-2"
+                            className="mb-4 sm:mb-0 text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center sm:mr-2"
                           >
                             Sim, Deletar
                           </button>
