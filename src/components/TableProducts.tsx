@@ -199,7 +199,7 @@ const TableProducts: React.FC = () => {
           <div>
             {modalIsOpenDelete && (
               <div className="relative h-full w-[100px] md:w-full">
-                <div className="overflow-y-auto overflow-x-hidden fixed top-80 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
+                <div className="overflow-y-auto overflow-x-hidden fixed top-52 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
                   <div className="relative p-4 w-full max-w-md h-full md:h-auto">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <button
@@ -269,7 +269,7 @@ const TableProducts: React.FC = () => {
             )}
             {modalIsOpen && (
               <div className="relative h-full w-[100px] md:w-full">
-                <div className="overflow-y-auto overflow-x-hidden fixed top-36 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
+                <div className="overflow-y-auto overflow-x-hidden fixed top-24 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
                   <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
@@ -372,7 +372,7 @@ const TableProducts: React.FC = () => {
             )}
             {modalIsOpenEdit && (
               <div className="relative h-full w-[100px] md:w-full">
-                <div className="overflow-y-auto overflow-x-hidden fixed top-36 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
+                <div className="overflow-y-auto overflow-x-hidden fixed top-24 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
                   <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
