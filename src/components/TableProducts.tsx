@@ -14,12 +14,10 @@ interface Products {
 
 const TableProducts: React.FC = () => {
   const [products, setProducts] = React.useState<Products[]>([])
+  const [selectedProduct, setSelectedProduct] = useState<Products>(
+    {} as Products,
+  )
   const [search, setSearch] = useState('')
-  const [productId, setProductId] = React.useState('')
-  const [productName, setProductName] = React.useState('')
-  const [productquantity, setProductquantity] = React.useState(0)
-  const [productdescription, setProductdescription] = React.useState('')
-  const [productprice, setProductprice] = React.useState(0)
   const [loading, setLoading] = React.useState(true)
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const [modalIsOpenEdit, setModalIsOpenEdit] = React.useState(false)
@@ -47,8 +45,7 @@ const TableProducts: React.FC = () => {
     await api.post('/products', data)
     setLoading(true)
     getProducts()
-    setProductName('')
-    setProductId('')
+    setSelectedProduct({} as Products)
     setModalIsOpen(false)
   }
 
@@ -58,14 +55,10 @@ const TableProducts: React.FC = () => {
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
     const data = Object.fromEntries(formData)
-    await api.patch(`/products/${productId}`, data)
+    await api.patch(`/products/${selectedProduct._id}`, data)
     setLoading(true)
     getProducts()
-    setProductId('')
-    setProductName('')
-    setProductquantity(0)
-    setProductdescription('')
-    setProductprice(0)
+    setSelectedProduct({} as Products)
     setModalIsOpenEdit(false)
   }
 
@@ -74,7 +67,7 @@ const TableProducts: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <div className="w-full">
       {loading ? (
         <div className="flex flex-1 justify-center items-center">
           <svg
@@ -95,10 +88,10 @@ const TableProducts: React.FC = () => {
           </svg>
         </div>
       ) : (
-        <div className="mx-auto">
-          <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <div className="flex justify-between mb-12">
-              <form className="w-[70%] items-center">
+        <div className="w-full">
+          <div className="shadow-md sm:rounded-lg">
+            <div className="flex justify-center mb-12">
+              <form className="flex-1 items-center mr-2">
                 <label
                   htmlFor="default-search"
                   className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
@@ -134,13 +127,13 @@ const TableProducts: React.FC = () => {
               </form>
               <button
                 type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 "
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-2"
                 onClick={() => setModalIsOpen(true)}
               >
                 Adicionar novo produto
               </button>
             </div>
-            <table className="w-full text-sm text-left text-gray-400">
+            <table className="w-full mx-auto text-sm text-left text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="py-3 px-6">
@@ -159,8 +152,10 @@ const TableProducts: React.FC = () => {
               </thead>
               <tbody>
                 {products
-                  .filter((product: Products) => product.name.includes(search))
-                  .map((product) => (
+                  .filter((product: Products) =>
+                    product.name.toLowerCase().includes(search.toLowerCase()),
+                  )
+                  .map((product: Products) => (
                     <tr
                       key={product._id}
                       className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600 focus:bg-gray-600"
@@ -175,16 +170,12 @@ const TableProducts: React.FC = () => {
                         {product.quantity}
                       </td>
                       <td className="py-4 px-6 text-zinc-50">
-                        R${product.price}
+                        R$ {product.price}
                       </td>
                       <td className="py-4 px-6 flex justify-around">
                         <button
                           onClick={() => {
-                            setProductId(product._id)
-                            setProductName(product.name)
-                            setProductdescription(product.description)
-                            setProductquantity(product.quantity)
-                            setProductprice(product.price)
+                            setSelectedProduct(product)
                             setModalIsOpenEdit(true)
                           }}
                           className="font-medium text-blue-400"
@@ -194,8 +185,7 @@ const TableProducts: React.FC = () => {
                         <button
                           onClick={() => {
                             setModalIsOpenDelete(true)
-                            setProductId(product._id)
-                            setProductName(product.name)
+                            setSelectedProduct(product)
                           }}
                           className="font-medium text-red-500 "
                         >
@@ -247,13 +237,13 @@ const TableProducts: React.FC = () => {
                                     Você tem certeza que deseja deletar o
                                     produto{' '}
                                     <strong className="font-bold text-lg text-red-600">
-                                      {productName}
+                                      {selectedProduct.name}
                                     </strong>
                                     ?
                                   </h3>
                                   <button
                                     onClick={() =>
-                                      handleDeleteProduct(productId)
+                                      handleDeleteProduct(selectedProduct._id)
                                     }
                                     className="text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                                   >
@@ -419,7 +409,7 @@ const TableProducts: React.FC = () => {
                             <input
                               type="text"
                               name="name"
-                              defaultValue={productName}
+                              defaultValue={selectedProduct.name}
                               className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-zinc-50"
                               required
                             />
@@ -431,7 +421,7 @@ const TableProducts: React.FC = () => {
                             <input
                               type="text"
                               name="description"
-                              defaultValue={productdescription}
+                              defaultValue={selectedProduct.description}
                               className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-zinc-50"
                             />
                           </div>
@@ -442,7 +432,7 @@ const TableProducts: React.FC = () => {
                             <input
                               type="number"
                               name="quantity"
-                              defaultValue={productquantity}
+                              defaultValue={selectedProduct.quantity}
                               min={0}
                               className="bg-gray-700 border border-gray-600 text-zinc-50 font-bold text-base rounded-lg block w-full p-2.5 focus:ring-blue-600"
                             />
@@ -460,7 +450,7 @@ const TableProducts: React.FC = () => {
                                 name="price"
                                 min={0}
                                 type="number"
-                                defaultValue={productprice}
+                                defaultValue={selectedProduct.price}
                                 pattern="^\d+(?:\.\d{1,2})?$"
                                 className="bg-gray-700 border border-gray-600 text-zinc-50 font-bold text-base rounded-r-lg block w-full p-2.5 focus:ring-blue-600"
                               />
@@ -490,7 +480,7 @@ const TableProducts: React.FC = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 
