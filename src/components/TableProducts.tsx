@@ -90,13 +90,10 @@ const TableProducts: React.FC = () => {
       ) : (
         <div className="w-full">
           <div className="shadow-md sm:rounded-lg">
-            <div className="flex justify-center mb-12">
-              <form className="flex-1 items-center mr-2">
-                <label
-                  htmlFor="default-search"
-                  className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
-                >
-                  Search
+            <div className="flex-col sm:flex sm:flex-row justify-center mb-6 sm:mb-12">
+              <form className="flex-1 px-4 items-center mr-2">
+                <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">
+                  Pesquisa
                 </label>
                 <div className="relative">
                   <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -125,13 +122,15 @@ const TableProducts: React.FC = () => {
                   />
                 </div>
               </form>
-              <button
-                type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-2"
-                onClick={() => setModalIsOpen(true)}
-              >
-                Adicionar novo produto
-              </button>
+              <div className="flex justify-center items-center sm:items-stretch mt-6 sm:mt-0">
+                <button
+                  type="button"
+                  className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-3 sm:py-2.5 text-center ml-2"
+                  onClick={() => setModalIsOpen(true)}
+                >
+                  Adicionar novo produto
+                </button>
+              </div>
             </div>
             <table className="w-full mx-auto text-sm text-left text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -139,10 +138,10 @@ const TableProducts: React.FC = () => {
                   <th scope="col" className="py-3 px-6">
                     Nome do Produto
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="hidden sm:table-cell py-3 px-6">
                     Quantidade
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="hidden sm:table-cell py-3 px-6">
                     Price
                   </th>
                   <th scope="col" className="py-3 px-6">
@@ -162,14 +161,14 @@ const TableProducts: React.FC = () => {
                     >
                       <th
                         scope="row"
-                        className="py-4 px-6 font-medium text-zinc-50 whitespace-nowrap dark:text-white"
+                        className="py-4 px-6 font-medium text-zinc-50  dark:text-white"
                       >
                         {product.name}
                       </th>
-                      <td className="py-4 px-6 text-zinc-50">
+                      <td className="hidden sm:table-cell py-4 px-6 text-zinc-50">
                         {product.quantity}
                       </td>
-                      <td className="py-4 px-6 text-zinc-50">
+                      <td className="hidden sm:table-cell py-4 px-6 text-zinc-50">
                         R$ {product.price}
                       </td>
                       <td className="py-4 px-6 flex justify-around">
@@ -187,89 +186,90 @@ const TableProducts: React.FC = () => {
                             setModalIsOpenDelete(true)
                             setSelectedProduct(product)
                           }}
-                          className="font-medium text-red-500 "
+                          className="font-medium text-red-500 ml-4"
                         >
                           <FaTrashAlt size={18} />
                         </button>
                       </td>
-                      {modalIsOpenDelete && (
-                        <div className="relative h-full w-full">
-                          <div className="overflow-y-auto overflow-x-hidden fixed top-[20%] left-[30%] z-50  w-full md:h-full">
-                            <div className="relative p-4 w-full max-w-md h-full md:h-auto">
-                              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                <button
-                                  type="button"
-                                  onClick={() => setModalIsOpenDelete(false)}
-                                  className="absolute top-3 right-2.5 text-gray-400 bg-transparent  rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    className="w-5 h-5 "
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                      clipRule="evenodd"
-                                    ></path>
-                                  </svg>
-                                  <span className="sr-only">Close modal</span>
-                                </button>
-                                <div className="p-6 text-center">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="mx-auto mb-4 w-14 h-14 text-red-600 "
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    ></path>
-                                  </svg>
-                                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                    Você tem certeza que deseja deletar o
-                                    produto{' '}
-                                    <strong className="font-bold text-lg text-red-600">
-                                      {selectedProduct.name}
-                                    </strong>
-                                    ?
-                                  </h3>
-                                  <button
-                                    onClick={() =>
-                                      handleDeleteProduct(selectedProduct._id)
-                                    }
-                                    className="text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-                                  >
-                                    Sim, Deletar
-                                  </button>
-                                  <button
-                                    onClick={() => setModalIsOpenDelete(false)}
-                                    className="rounded-lg border text-sm font-medium px-5 py-2.5 hover:text-zinc-50 focus:z-10 bg-gray-700 text-zinc-50 border-gray-500 hover:bg-gray-600"
-                                  >
-                                    Não, cancelar
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
           <div>
+            {modalIsOpenDelete && (
+              <div className="relative h-full w-[100px] md:w-full">
+                <div className="overflow-y-auto overflow-x-hidden fixed top-80 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
+                  <div className="relative p-4 w-full max-w-md h-full md:h-auto">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                      <button
+                        type="button"
+                        onClick={() => setModalIsOpenDelete(false)}
+                        className="absolute top-3 right-2.5 text-gray-400 bg-transparent  rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="w-5 h-5 "
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                        <span className="sr-only">Close modal</span>
+                      </button>
+                      <div className="p-6 text-center">
+                        <svg
+                          aria-hidden="true"
+                          className="mx-auto mb-4 w-14 h-14 text-red-600 "
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                          Você tem certeza que deseja deletar o produto{' '}
+                          <strong className="font-bold text-lg text-red-600">
+                            {selectedProduct.name}
+                          </strong>
+                          ?
+                        </h3>
+                        <div className="flex flex-col justify-center items-center">
+                          <button
+                            onClick={() =>
+                              handleDeleteProduct(selectedProduct._id)
+                            }
+                            className="mb-4 sm:mb-0 mx-auto text-zinc-50 bg-red-600 hover:bg-red-800  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center sm:mr-2"
+                          >
+                            Sim, Deletar
+                          </button>
+                          <button
+                            onClick={() => setModalIsOpenDelete(false)}
+                            className="rounded-lg border text-sm font-medium px-5 py-2.5 hover:text-zinc-50 focus:z-10 bg-gray-700 text-zinc-50 border-gray-500 hover:bg-gray-600"
+                          >
+                            Não, cancelar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             {modalIsOpen && (
-              <div className="relative h-full w-full">
-                <div className="overflow-y-auto overflow-x-hidden fixed top-[20%] left-[30%] z-50  w-full md:h-full">
+              <div className="relative h-full w-[100px] md:w-full">
+                <div className="overflow-y-auto overflow-x-hidden fixed top-36 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
                   <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
@@ -371,8 +371,8 @@ const TableProducts: React.FC = () => {
               </div>
             )}
             {modalIsOpenEdit && (
-              <div className="fixed z-10 inset-0 overflow-y-auto">
-                <div className="overflow-y-auto overflow-x-hidden fixed top-[20%] left-[30%] z-50  w-full md:h-full">
+              <div className="relative h-full w-[100px] md:w-full">
+                <div className="overflow-y-auto overflow-x-hidden fixed top-36 md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
                   <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
