@@ -142,7 +142,7 @@ const TableProducts: React.FC = () => {
                     Quantidade
                   </th>
                   <th scope="col" className="hidden sm:table-cell py-3 px-6">
-                    Price
+                    Preço
                   </th>
                   <th scope="col" className="py-3 px-6">
                     <span className="sr-only">Ações</span>
