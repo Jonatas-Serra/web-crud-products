@@ -315,6 +315,7 @@ const TableProducts: React.FC = () => {
                               Descrição do produto
                             </label>
                             <input
+                              required
                               type="text"
                               name="description"
                               className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-zinc-50"
@@ -325,6 +326,7 @@ const TableProducts: React.FC = () => {
                               Quantidade
                             </label>
                             <input
+                              required
                               type="number"
                               name="quantity"
                               min={0}
