@@ -342,6 +342,7 @@ const TableProducts: React.FC = () => {
                                 R$
                               </span>
                               <CurrencyInput
+                                required
                                 prefix="R$"
                                 name="price"
                                 min={0}
